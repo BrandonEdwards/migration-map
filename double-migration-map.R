@@ -72,8 +72,8 @@ for (i in 2:length(dates))
   
   species1ToPlot$count <- as.numeric(species1ToPlot$`OBSERVATION COUNT`)
   species2ToPlot$count <- as.numeric(species2ToPlot$`OBSERVATION COUNT`)
-  species1ToPlot$count = (species1ToPlot$count)/2
-  species2ToPlot$count = (species2ToPlot$count)/2
+  species1ToPlot$count = log(species1ToPlot$count)
+  species2ToPlot$count = log(species2ToPlot$count)
   
   p1 <- p1 + geom_point(data = species1ToPlot, aes(x = LONGITUDE, y = LATITUDE, colour = "red", size = count), show.legend = FALSE)
   p2 <- p2 + geom_point(data = species2ToPlot, aes(x = LONGITUDE, y = LATITUDE, colour = "red", size = count), show.legend = FALSE)
