@@ -20,8 +20,6 @@ remove(list = ls())
 # Libraries to Use
 ##############################
 
-library(rworldmap)
-library(rworldxtra)
 library(ggmap)
 library(mapproj)
 
