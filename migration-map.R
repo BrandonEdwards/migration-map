@@ -21,7 +21,9 @@ remove(list = ls())
 ##############################
 
 library(rworldmap)
-#library(ggmap)
+library(rworldxtra)
+library(ggmap)
+library(mapproj)
 
 ##############################
 # File IO
@@ -36,7 +38,8 @@ pipl <- read.csv("data.txt", header = TRUE, sep = "\t")
 coords <- read.csv("coords.csv")
 
 #creates empty map object
-map <- getMap(resolution = "low")
+map <- get_map(location = 'Iowa', zoom = 4)
+
 #get list of all unique dates and sort them from oldest to newest
 pipl$dates <- substr(pipl$OBSERVATION.DATE, start = 6, stop = 10)
 dates <- sort(unique(pipl$dates))
@@ -44,10 +47,13 @@ dates <- sort(unique(pipl$dates))
 for (i in 2:length(dates))
 {
   toPlot <- pipl[ which(pipl$dates == dates[i]), ]
-  plot(map, xlim = range(coords$lon), ylim = range(coords$lat), asp = 1)
-  points(toPlot$LONGITUDE, toPlot$LATITUDE, col = "blue")
-  p <- recordPlot()
-  png(paste("C:/Users/Brandon/Documents/GitHub/migration-map/img/", i, ".png", sep=""), width=1000, height=872)
+  p <- ggmap(map, legend.position = "none", main = dates[i])
+  toPlot$count <- as.numeric(toPlot$OBSERVATION.COUNT)
+  toPlot$count = (toPlot$count)/2
+  p <- p + geom_point(data = toPlot, aes(x = LONGITUDE, y = LATITUDE, colour = "red", size = count), show.legend = FALSE)
+  p <- p + ggtitle(dates[i])
+  
+  png(paste("C:/Users/Brandon/Documents/GitHub/migration-map/img/", i, ".png", sep=""), width=800, height=698)
   print(p)
   dev.off()
   plot.new()
