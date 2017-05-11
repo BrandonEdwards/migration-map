@@ -22,11 +22,13 @@ remove(list = ls())
 
 library(ggmap)
 library(mapproj)
+library(data.table)
 
 ##############################
 # File IO
 ##############################
-pipl <- read.csv("data.txt", header = TRUE, sep = "\t")
+#pipl <- read.csv("data.txt", header = TRUE, sep = "\t")
+pipl <- fread("data.txt")
 
 ##############################
 # Create map
